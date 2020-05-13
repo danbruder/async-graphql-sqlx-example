@@ -34,14 +34,9 @@ pub struct MutationRoot;
 
 #[async_graphql::Object]
 impl MutationRoot {
-    async fn create_todo(
-        &self,
-        ctx: &Context<'_>,
-        body: String,
-        complete: bool,
-    ) -> FieldResult<Todo> {
+    async fn create_todo(&self, ctx: &Context<'_>, body: String) -> FieldResult<Todo> {
         let pool = ctx.data::<SqlitePool>();
-        let item = Todo::insert(&pool, &body, complete).await?;
+        let item = Todo::insert(&pool, &body).await?;
 
         SimpleBroker::publish(TodoChanged {
             mutation_type: MutationType::Created,
@@ -72,11 +67,12 @@ impl MutationRoot {
         ctx: &Context<'_>,
         id: ID,
         body: String,
+        complete: bool,
     ) -> FieldResult<Option<Todo>> {
         let pool = ctx.data::<SqlitePool>();
         let id = id.parse::<String>()?;
 
-        let item = Todo::update(&pool, &id, &body).await?;
+        let item = Todo::update(&pool, &id, &body, complete).await?;
 
         SimpleBroker::publish(TodoChanged {
             mutation_type: MutationType::Updated,
@@ -86,16 +82,12 @@ impl MutationRoot {
 
         Ok(item)
     }
-    async fn set_complete(
-        &self,
-        ctx: &Context<'_>,
-        id: ID,
-        complete: bool,
-    ) -> FieldResult<Option<Todo>> {
+
+    async fn toggle_complete(&self, ctx: &Context<'_>, id: ID) -> FieldResult<Option<Todo>> {
         let pool = ctx.data::<SqlitePool>();
         let id = id.parse::<String>()?;
 
-        let item = Todo::set_complete(&pool, &id, complete).await?;
+        let item = Todo::toggle_complete(&pool, &id).await?;
 
         SimpleBroker::publish(TodoChanged {
             mutation_type: MutationType::Updated,
