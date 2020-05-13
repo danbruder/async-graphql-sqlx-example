@@ -13,3 +13,26 @@ cargo run
 ```
 
 Open up `http://localhost:8080` to see the GraphQL playground
+
+Create a subscription in one window:
+
+```graphql
+subscription {
+  todos {
+    id
+    mutationType
+    item
+  }
+}
+```
+
+Next, create a new todo in another window:
+
+```graphql
+mutation {
+  createTodo(body: "New todo!", complete: false) {
+    id
+    body
+  }
+}
+```
