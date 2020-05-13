@@ -4,7 +4,7 @@ pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Error, Debug)]
 pub enum Error {
-    #[error("data store disconnected")]
+    #[error("database error")]
     SqliteError(sqlx_core::error::Error),
 }
 
