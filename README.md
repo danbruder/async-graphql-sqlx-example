@@ -1,4 +1,4 @@
-# Async GraphQL, warp, sqlx, and sqlite example (todos)
+# Rust GraphQL API Example
 
 Minimal example using [Async Graphql](https://github.com/async-graphql/async-graphql), [sqlx](https://github.com/launchbadge/sqlx), [warp](https://github.com/seanmonstar/warp), and sqlite.
 
