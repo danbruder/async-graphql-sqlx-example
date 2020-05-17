@@ -11,7 +11,7 @@ pub async fn start(pool: SqlitePool) {
         .data(pool)
         .finish();
 
-    println!("Playground: http://localhost:8000");
+    println!("Playground: http://localhost:8080");
 
     let graphql_post = async_graphql_warp::graphql(schema.clone()).and_then(
         |(schema, builder): (_, QueryBuilder)| async move {
@@ -29,5 +29,5 @@ pub async fn start(pool: SqlitePool) {
     let routes = graphql_post
         .or(graphql_subscription(schema))
         .or(graphql_playground);
-    warp::serve(routes).run(([0, 0, 0, 0], 8000)).await;
+    warp::serve(routes).run(([0, 0, 0, 0], 8080)).await;
 }
