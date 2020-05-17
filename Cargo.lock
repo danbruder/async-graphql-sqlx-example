@@ -763,6 +763,7 @@ dependencies = [
  "chrono",
  "dotenv",
  "futures",
+ "libsqlite3-sys",
  "serde",
  "serde_json",
  "sqlx",

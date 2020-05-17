@@ -21,3 +21,5 @@ async-graphql-warp = "1.4.2"
 thiserror = "1.0.16"
 warp = "0.2.2"
 futures = "0.3.5"
+# Needed for sqlite.
+libsqlite3-sys = { version = "*", features = ["bundled"] }
